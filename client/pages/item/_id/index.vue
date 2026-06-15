@@ -403,16 +403,10 @@ export default {
         })
       }
 
-      if (this.ebookFile && this.$store.state.libraries.ereaderDevices?.length) {
+      if (this.ebookFile) {
         items.push({
           text: this.$strings.LabelSendEbookToDevice,
-          subitems: this.$store.state.libraries.ereaderDevices.map((d) => {
-            return {
-              text: d.name,
-              action: 'sendToDevice',
-              data: d.name
-            }
-          })
+          action: 'sendToEReader'
         })
       }
 
@@ -728,6 +722,13 @@ export default {
       }
       this.$store.commit('globals/setConfirmPrompt', payload)
     },
+    sendToEReader() {
+      this.$store.commit('globals/setSendToEReaderModal', {
+        libraryItemId: this.libraryItemId,
+        title: this.title,
+        ebookFormat: this.ebookFile.ebookFormat
+      })
+    },
     sendToDevice(deviceName) {
       const payload = {
         message: this.$getString('MessageConfirmSendEbookToDevice', [this.ebookFile.ebookFormat, this.title, deviceName]),
@@ -773,6 +774,8 @@ export default {
         this.deleteLibraryItem()
       } else if (action === 'sendToDevice') {
         this.sendToDevice(data)
+      } else if (action === 'sendToEReader') {
+        this.sendToEReader()
       } else if (action === 'share') {
         this.$store.commit('setSelectedLibraryItem', this.libraryItem)
         this.$store.commit('globals/setShareModal', this.mediaItemShare)

@@ -27,6 +27,8 @@ export const state = () => ({
   isCasting: false, // Actively casting
   isChromecastInitialized: false, // Script loadeds
   showBatchQuickMatchModal: false,
+  showSendToEReaderModal: false,
+  sendToEReaderItem: null,
   dateFormats: [
     {
       text: 'MM/DD/YYYY',
@@ -163,6 +165,13 @@ export const mutations = {
   setConfirmPrompt(state, options) {
     state.confirmPromptOptions = options
     state.showConfirmPrompt = true
+  },
+  setSendToEReaderModal(state, item) {
+    state.sendToEReaderItem = item
+    state.showSendToEReaderModal = true
+  },
+  setShowSendToEReaderModal(state, val) {
+    state.showSendToEReaderModal = val
   },
   setShowRawCoverPreviewModal(state, val) {
     state.showRawCoverPreviewModal = val

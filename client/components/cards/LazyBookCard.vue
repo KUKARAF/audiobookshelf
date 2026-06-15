@@ -543,16 +543,10 @@ export default {
             })
           }
         }
-        if (this.ebookFormat && this.store.state.libraries.ereaderDevices?.length) {
+        if (this.ebookFormat) {
           items.push({
             text: this.$strings.LabelSendEbookToDevice,
-            subitems: this.store.state.libraries.ereaderDevices.map((d) => {
-              return {
-                text: d.name,
-                func: 'sendToDevice',
-                data: d.name
-              }
-            })
+            func: 'sendToEReader'
           })
         }
       }
@@ -793,6 +787,13 @@ export default {
     showEditModalMatch() {
       // More menu func
       this.$emit('edit', this.libraryItem, 'match')
+    },
+    sendToEReader() {
+      this.store.commit('globals/setSendToEReaderModal', {
+        libraryItemId: this.libraryItemId,
+        title: this.title,
+        ebookFormat: this.ebookFormat
+      })
     },
     sendToDevice(deviceName) {
       // More menu func
