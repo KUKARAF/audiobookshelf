@@ -4,7 +4,7 @@
       <div class="px-6 py-8 rounded-lg bg-bg shadow-lg border border-black-300">
         <h2 class="text-xl font-semibold mb-2">Send to eReader</h2>
         <p class="text-sm text-gray-400 mb-6">
-          Open <a href="https://bookdrop.cc" target="_blank" class="text-blue-400 underline">bookdrop.cc</a> on your eReader's browser and enter the key shown there.
+          Open <a href="https://sendbooks.osmosis.page" target="_blank" class="text-blue-400 underline">sendbooks.osmosis.page</a> on your eReader's browser and enter the key shown there.
         </p>
         <ui-text-input-with-label v-model="code" label="Device Key" class="mb-6" @keyup.enter.native="submit" />
         <div class="flex items-center justify-end gap-3">
@@ -76,11 +76,13 @@ export default {
         formData.append('file', file, filename)
         formData.append('kepubify', 'on')
 
-        await fetch('https://bookdrop.cc/upload', {
+        // Server rejects uploads without X-Requested-With (CSRF guard), so this needs CORS enabled on the send2ereader side
+        const res = await fetch('https://sendbooks.osmosis.page/upload', {
           method: 'POST',
-          body: formData,
-          mode: 'no-cors'
+          headers: { 'X-Requested-With': 'XMLHttpRequest' },
+          body: formData
         })
+        if (!res.ok) throw new Error(await res.text())
 
         this.$toast.success('Book sent to eReader!')
         this.show = false
