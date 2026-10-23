@@ -88,7 +88,8 @@ export default {
         this.show = false
       } catch (err) {
         console.error('Failed to send to eReader', err)
-        this.$toast.error('Failed to send to eReader')
+        const unknownKey = /unknown key/i.test(err.message)
+        this.$toast.error(unknownKey ? 'Unknown device key. Please check the code shown on your eReader and try again.' : 'Failed to send to eReader')
       } finally {
         this.sending = false
       }
