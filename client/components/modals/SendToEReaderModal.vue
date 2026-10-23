@@ -4,7 +4,7 @@
       <div class="px-6 py-8 rounded-lg bg-bg shadow-lg border border-black-300">
         <h2 class="text-xl font-semibold mb-2">Send to eReader</h2>
         <p class="text-sm text-gray-400 mb-6">
-          Open <a href="https://send.djazz.se" target="_blank" class="text-blue-400 underline">send.djazz.se</a> on your eReader's browser and enter the key shown there.
+          Open <a href="https://bookdrop.cc" target="_blank" class="text-blue-400 underline">bookdrop.cc</a> on your eReader's browser and enter the key shown there.
         </p>
         <ui-text-input-with-label v-model="code" label="Device Key" class="mb-6" @keyup.enter.native="submit" />
         <div class="flex items-center justify-end gap-3">
@@ -76,7 +76,7 @@ export default {
         formData.append('file', file, filename)
         formData.append('kepubify', 'on')
 
-        await fetch('https://send.djazz.se/upload', {
+        await fetch('https://bookdrop.cc/upload', {
           method: 'POST',
           body: formData,
           mode: 'no-cors'
